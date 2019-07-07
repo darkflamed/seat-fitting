@@ -303,6 +303,11 @@ class FittingController extends Controller implements CalculateConstants
             }
 
         }
+        
+        // init drones array
+        if (count($data) > 5) {
+            $bay = array_filter(preg_split("/\r?\n/", $data[4]));
+        }
 
         $this->loadSlot($jsfit, "LoSlot", $lowslot);
         $this->loadSlot($jsfit, "MedSlot", $midslot);
@@ -313,6 +318,10 @@ class FittingController extends Controller implements CalculateConstants
         }
         
         $this->loadSlot($jsfit, "RigSlot", $rigs);
+        
+        if (isset($bay)) {
+            $this->loadSlot($jsfit, "baySlot", $bay);
+        }
         
         if (isset($drones)) {
             foreach ($drones as $slot) {
