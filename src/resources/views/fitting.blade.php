@@ -162,10 +162,10 @@
                      </thead>
                      <tbody></tbody>
                  </table>
-                 <table id="bays" class="table table-condensed table-striped">
+                 <table id="storageSlots" class="table table-condensed table-striped">
                      <thead>
                          <tr>
-                             <th class="col-md-10">Storage Bay</th>
+                             <th class="col-md-10">Storage</th>
                              <th class="col-md-2">Number</th>
                          </tr>
                      </thead>
@@ -240,7 +240,7 @@
         });
     }).on('click', '#viewfit', function () {
         uri = "['id' => " + $(this).data('id') +"]";
-        $('#highSlots, #midSlots, #lowSlots, #rigs, #cargo, #drones, #subSlots')
+        $('#highSlots, #midSlots, #lowSlots, #rigs, #cargo, #drones, #subSlots, #storageSlots')
             .find('tbody')
             .empty();
         $('#fittingId').text($(this).data('id'));
@@ -253,7 +253,7 @@
             dataType: 'json',
             timeout: 10000
         }).done( function (result) {
-            $('#highSlots, #midSlots, #lowSlots, #rigs, #cargo, #drones, #subSlots')
+            $('#highSlots, #midSlots, #lowSlots, #rigs, #cargo, #drones, #subSlots, #storageSlots')
                 .find('tbody')
                 .empty();
             $('#showeft').val('');
@@ -416,9 +416,9 @@
                         $('#drones').find('tbody').append(
                         "<tr><td><img src='https://image.eveonline.com/Type/" + item + "_32.png' height='24' /> " + result[slot][item].name + "</td><td>" + result[slot][item].qty + "</td></tr>");
                     }
-                if (slot.indexOf('baySlot') >= 0) {
+                if (slot.indexOf('storagebay') >= 0) {
                     for (item in result[slot])
-                        $('#bays').find('tbody').append(
+                        $('#storageSlots').find('tbody').append(
                         "<tr><td><img src='https://image.eveonline.com/Type/" + item + "_32.png' height='24' /> " + result[slot][item].name + "</td><td>" + result[slot][item].qty + "</td></tr>");
                     }    
             }
