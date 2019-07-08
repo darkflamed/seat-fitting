@@ -285,43 +285,15 @@ class FittingController extends Controller implements CalculateConstants
         $midslot = array_filter(preg_split("/\r?\n/", $data[1]));
         $highslot = array_filter(preg_split("/\r?\n/", $data[2]));
         $rigs = array_filter(preg_split("/\r?\n/", $data[3]));
-
-        // init drones array
-        if (count($data) > 4) {
-            $drones = array_filter(preg_split("/\r?\n/", $data[4]));
-        }
-
-        // special case for tech 3 cruiser which may have sub-modules
-        if (in_array($jsfit['shipname'], ['Tengu', 'Loki', 'Legion', 'Proteus'])) {
-
-            $subslot = array_filter(preg_split("/\r?\n/", $data[4]));
-
-            // bump drones to index 5
-            $drones = [];
-            if (count($data) > 5) {
-                $drones = array_filter(preg_split("/\r?\n/", $data[5]));
-            }
-
-        }
-        
-        // init drones array
-        if (count($data) > 5) {
-            $bay = array_filter(preg_split("/\r?\n/", $data[4]));
-        }
+        $subslot = array_filter(preg_split("/\r?\n/", $data[4]));
+        $drones = array_filter(preg_split("/\r?\n/", $data[5]));
+        $bay = array_filter(preg_split("/\r?\n/", $data[6]));
 
         $this->loadSlot($jsfit, "LoSlot", $lowslot);
         $this->loadSlot($jsfit, "MedSlot", $midslot);
         $this->loadSlot($jsfit, "HiSlot", $highslot);
-
-        if (isset($subslot)) {
-            $this->loadSlot($jsfit, "SubSlot", $subslot);
-        }
-        
         $this->loadSlot($jsfit, "RigSlot", $rigs);
-        
-        if (isset($bay)) {
-            $this->loadSlot($jsfit, "baySlot", $bay);
-        }
+        $this->loadSlot($jsfit, "SubSlot", $subslot);
         
         if (isset($drones)) {
             foreach ($drones as $slot) {
@@ -330,6 +302,18 @@ class FittingController extends Controller implements CalculateConstants
 
                 $jsfit['dronebay'][$item->typeID] = [
                     'name' => $drone,
+                    'qty'  => $qty,
+                ];
+            } 
+        }
+        
+        if (isset($bay)) {
+            foreach ($bay as $storage) {
+                list($itemName, $qty) = explode(" x", $storage);
+                $item = InvType::where('typeName', $itemName)->first();
+
+                $jsfit['storagebay'][$item->typeID] = [
+                    'name' => $itemName,
                     'qty'  => $qty,
                 ];
             } 
