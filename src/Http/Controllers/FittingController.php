@@ -285,9 +285,9 @@ class FittingController extends Controller implements CalculateConstants
         $midslot = array_filter(preg_split("/\r?\n/", $data[1]));
         $highslot = array_filter(preg_split("/\r?\n/", $data[2]));
         $rigs = array_filter(preg_split("/\r?\n/", $data[3]));
-        $subslot = array_filter(preg_split("/\r?\n/", $data[4]));
-        $drones = array_filter(preg_split("/\r?\n/", $data[5]));
-        $bay = array_filter(preg_split("/\r?\n/", $data[6]));
+        $subslot = array_filter(preg_split("/\r?\n/", $data[4] ?? null));
+        $drones = array_filter(preg_split("/\r?\n/", $data[5] ?? null));
+        $bay = array_filter(preg_split("/\r?\n/", $data[6] ?? null));
 
         $this->loadSlot($jsfit, "LoSlot", $lowslot);
         $this->loadSlot($jsfit, "MedSlot", $midslot);
